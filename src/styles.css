@@ -2,6 +2,7 @@
    v2.0 | 20110126
    License: none (public domain)
 */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;800&display=swap');
 
 html,
 body,
@@ -97,7 +98,7 @@ body {
   line-height: 1;
   overflow-x: hidden;
   overflow-y: hidden;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Roboto', sans-serif;
   letter-spacing: -0.5px;
   scroll-behavior: smooth;
 }
@@ -226,4 +227,63 @@ table {
   background: black;
   color: white;
   cursor: pointer;
+}
+
+/* HERO SECTION */
+.section {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  align-content: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  scroll-snap-align: start;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.hero--container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 80%;
+  padding: 10vh 0;
+}
+
+.hero--content {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.hero--content-title {
+  text-align: center;
+  font-weight: 400;
+  font-size: 42px;
+}
+
+.spec-wrapper {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  bottom: 0;
+}
+
+.spec-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 1em;
+}
+
+.spec-item-child:first-of-type {
+  margin-bottom: 1em;
+  font-weight: 800;
 }
