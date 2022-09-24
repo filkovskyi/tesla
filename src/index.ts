@@ -26,7 +26,7 @@ import {
 } from "webgi";
 import "./styles.css";
 
-async function setupViewer(){
+async function setupViewer() {
 
     // Initialize the viewer
     const viewer = new ViewerApp({
@@ -63,7 +63,8 @@ async function setupViewer(){
     // This must be called once after all plugins are added.
     viewer.renderer.refreshPipeline()
 
-    await manager.addFromPath("./assets/classic-watch.glb")
+    //await manager.addFromPath("./assets/classic-watch.glb")
+    await manager.addFromPath("./assets/tesla.glb")
 
     // Load an environment map if not set in the glb file
     // await viewer.scene.setEnvironment(
