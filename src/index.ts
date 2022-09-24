@@ -15,10 +15,11 @@ import {
     TemporalAAPlugin,
     AnisotropyPlugin,
     GammaCorrectionPlugin,
-
     addBasePlugins,
-    ITexture, TweakpaneUiPlugin, AssetManagerBasicPopupPlugin, CanvasSnipperPlugin,
-
+    ITexture,
+    TweakpaneUiPlugin,
+    AssetManagerBasicPopupPlugin,
+    CanvasSnipperPlugin,
     IViewerPlugin,
 
     // Color, // Import THREE.js internals
@@ -27,17 +28,16 @@ import {
 import "./styles.css";
 
 async function setupViewer() {
-
     // Initialize the viewer
     const viewer = new ViewerApp({
-        canvas: document.getElementById('webgi-canvas') as HTMLCanvasElement,
-    })
+        canvas: document.getElementById("webgi-canvas") as HTMLCanvasElement,
+    });
 
     // Add some plugins
-    const manager = await viewer.addPlugin(AssetManagerPlugin)
+    const manager = await viewer.addPlugin(AssetManagerPlugin);
 
     // Add a popup(in HTML) with download progress when any asset is downloading.
-    await viewer.addPlugin(AssetManagerBasicPopupPlugin)
+    await viewer.addPlugin(AssetManagerBasicPopupPlugin);
 
     // Add plugins individually.
     // await viewer.addPlugin(GBufferPlugin)
@@ -55,16 +55,16 @@ async function setupViewer() {
     // await viewer.addPlugin(AnisotropyPlugin)
 
     // or use this to add all main ones at once.
-    await addBasePlugins(viewer)
+    await addBasePlugins(viewer);
 
     // Add more plugins not available in base, like CanvasSnipperPlugin which has helpers to download an image of the canvas.
-    await viewer.addPlugin(CanvasSnipperPlugin)
+    await viewer.addPlugin(CanvasSnipperPlugin);
 
     // This must be called once after all plugins are added.
-    viewer.renderer.refreshPipeline()
+    viewer.renderer.refreshPipeline();
 
     //await manager.addFromPath("./assets/classic-watch.glb")
-    await manager.addFromPath("./assets/tesla.glb")
+    await manager.addFromPath("./assets/tesla.glb");
 
     // Load an environment map if not set in the glb file
     // await viewer.scene.setEnvironment(
@@ -74,10 +74,9 @@ async function setupViewer() {
     // );
 
     // Add some UI for tweak and testing.
-    const uiPlugin = await viewer.addPlugin(TweakpaneUiPlugin)
+    const uiPlugin = await viewer.addPlugin(TweakpaneUiPlugin);
     // Add plugins to the UI to see their settings.
-    uiPlugin.setupPlugins<IViewerPlugin>(TonemapPlugin, CanvasSnipperPlugin)
-
+    uiPlugin.setupPlugins<IViewerPlugin>(TonemapPlugin, CanvasSnipperPlugin);
 }
 
-setupViewer()
+setupViewer();
