@@ -14,7 +14,6 @@ import {
   TemporalAAPlugin,
   RandomizedDirectionalLightPlugin,
   AssetImporter,
-  createStyles,
 } from "webgi"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
@@ -41,13 +40,13 @@ async function setupViewer() {
   const target = camera.target
 
   // Interface Elements
-  const exploreView = document.querySelector('.cam-view-5') as HTMLElement
-  const canvasView = document.getElementById('webgi-canvas') as HTMLElement
-  const canvasContainer = document.getElementById('webgi-canvas-container') as HTMLElement
-  const exitContainer = document.querySelector('.exit--container') as HTMLElement
+  // const exploreView = document.querySelector('.cam-view-5') as HTMLElement
+  // const canvasView = document.getElementById('webgi-canvas') as HTMLElement
+  // const canvasContainer = document.getElementById('webgi-canvas-container') as HTMLElement
+  // const exitContainer = document.querySelector('.exit--container') as HTMLElement
   const loaderElement = document.querySelector('.loader') as HTMLElement
-  const header = document.querySelector('.header') as HTMLElement
-  const bodyButton = document.querySelector('.button--body') as HTMLElement
+  // const header = document.querySelector('.header') as HTMLElement
+  // const bodyButton = document.querySelector('.button--body') as HTMLElement
 
   // Add WEBGi plugins
   await viewer.addPlugin(GBufferPlugin)
@@ -69,8 +68,8 @@ async function setupViewer() {
   const importer = manager.importer as AssetImporter
 
   importer.addEventListener("onStart", (ev) => {
-    target.set(8.16, -0.13, 0.51)
-    position.set(3.6, -0.04, -3.93)
+    target.set(0.15, -0.23, -0.30)
+    position.set(-4.49, 1.42, -4.05)
     onUpdate()
   })
 
@@ -85,18 +84,6 @@ async function setupViewer() {
 
   viewer.renderer.refreshPipeline()
 
-  // WEBGi load model
-  await manager.addFromPath("./assets/camera.glb")
-
-  const lensObjects: any[] = []
-  // for (const obj of lensObjectNames) {
-  //   const o = viewer.scene.findObjectsByName(obj)[0]
-  //   o.userData.__startPos = o.position.z
-  //   o.userData.__deltaPos = -Math.pow(Math.abs(o.position.z) * 1.5, 1.25)
-
-  //   lensObjects.push(o)
-  // }
-
   if (camera.controls) camera.controls.enabled = false
 
   // WEBGi mobile adjustments
@@ -106,22 +93,23 @@ async function setupViewer() {
     camera.setCameraOptions({ fov: 65 })
   }
 
-  window.scrollTo(0, 0)
-
-  await timeout(50)
-
   // WEBGi load model
-  await manager.addFromPath("./assets/tesla.glb");
+  await manager.addFromPath("./assets/tesla_1.glb");
 
-  // WEBGi mobile adjustments
-  if (isMobile) {
-    ssr.passes.ssr.passObject.stepCount /= 2
-    bloom.enabled = false
-    camera.setCameraOptions({ fov: 65 })
+  //Tesla_Scene
+  const teslaObjectNames = [
+    'door_lf_dummy',
+    'door_lr_dummy',
+  ]
+  const teslaObjects: any[] = []
+  for (const obj of teslaObjectNames) {
+    const itemObject = viewer.scene.findObjectsByName(obj)[0];
+    teslaObjects.push(itemObject)
   }
+  console.log(teslaObjects);
+
 
   window.scrollTo(0, 0)
-
   await timeout(50)
 
   function introAnimation() {
@@ -139,8 +127,9 @@ async function setupViewer() {
     const tl = gsap.timeline();
 
     tl
+      // CAM-2
       .to(position, {
-        x: 2.5, y: 2, z: 3.5,
+        x: -5.7326804643, y: 1.6524931014, z: 0.1342477293,
         scrollTrigger: {
           trigger: ".cam-view-2",
           start: "top bottom",
@@ -151,8 +140,34 @@ async function setupViewer() {
         },
         onUpdate
       })
+      .to(target, {
+        x: -0.1, y: -0.2271486935, z: 0.5,
+        scrollTrigger: {
+          trigger: ".cam-view-2",
+          start: "top bottom",
+          end: "top top",
+          scrub: true,
+          immediateRender: false
+        }
+      })
+      .fromTo('.section--container-cam-2',
+        { opacity: 0.2, x: '130%' },
+        {
+          opacity: 1,
+          x: '0%',
+          duration: 0.3,
+          ease: "power4.Out",
+          scrollTrigger: {
+            trigger: ".cam-view-2",
+            start: "top bottom",
+            end: "top top",
+            scrub: 1,
+            immediateRender: false
+          }
+        })
+      // CAM-3
       .to(position, {
-        x: -2.5, y: -2, z: 3.5,
+        x: -2.3936073874, y: 1.1716831161, z: -5.7753367126,
         scrollTrigger: {
           trigger: ".cam-view-3",
           start: "top bottom",
@@ -163,8 +178,33 @@ async function setupViewer() {
         },
         onUpdate
       })
+      .to(target, {
+        x: 0.15, y: - 0.23, z: -0.30,
+        scrollTrigger: {
+          trigger: ".cam-view-3",
+          start: "top bottom",
+          end: "top top",
+          scrub: true,
+          immediateRender: false
+        }
+      })
+      .fromTo('.section--container-cam-2',
+        { opacity: 1, },
+        {
+          opacity: 0,
+          duration: 0.3,
+          ease: "power4.Out",
+          scrollTrigger: {
+            trigger: ".cam-view-3",
+            start: "top bottom",
+            end: "top top",
+            scrub: 1,
+            immediateRender: false
+          }
+        })
+      // CAM-4
       .to(position, {
-        x: -0.5, y: 1, z: 5,
+        x: 2.2974944318, y: 1.7064613103, z: 5.1867906605,
         scrollTrigger: {
           trigger: ".cam-view-4",
           start: "top bottom",
@@ -175,20 +215,33 @@ async function setupViewer() {
         },
         onUpdate
       })
-      .to(position, {
-        x: 5, y: 3, z: -2.5,
+      .to(target, {
+        x: 0.15, y: - 0.23, z: 0.30,
         scrollTrigger: {
           trigger: ".cam-view-4",
           start: "top bottom",
           end: "top top",
           scrub: true,
-          immediateRender: false,
-          markers: true
-        },
-        onUpdate
+          immediateRender: false
+        }
       })
+      .fromTo('.section--container-cam-3',
+        { opacity: 1, },
+        {
+          opacity: 0,
+          duration: 0.3,
+          ease: "power4.Out",
+          scrollTrigger: {
+            trigger: ".cam-view-4",
+            start: "top bottom",
+            end: "top top",
+            scrub: 1,
+            immediateRender: false
+          }
+        })
+      // CAM-5
       .to(position, {
-        x: 2.4, y: -3, z: 5,
+        x: -0.25, y: 8.5, z: -0.14,
         scrollTrigger: {
           trigger: ".cam-view-5",
           start: "top bottom",
@@ -199,8 +252,48 @@ async function setupViewer() {
         },
         onUpdate
       })
+      .to(target, {
+        x: -0.25, y: -0.22, z: -0.14,
+        scrollTrigger: {
+          trigger: ".cam-view-5",
+          start: "top bottom",
+          end: "top top",
+          scrub: true,
+          immediateRender: false
+        }
+      })
+      .fromTo('.section--container-cam-4',
+        { opacity: 1, },
+        {
+          opacity: 0,
+          duration: 0.3,
+          ease: "power4.Out",
+          scrollTrigger: {
+            trigger: ".cam-view-5",
+            start: "top bottom",
+            end: "top top",
+            scrub: 1,
+            immediateRender: false
+          }
+        })
+      .fromTo('.section--container-cam-5',
+        { opacity: 0.2, x: '130%' },
+        {
+          opacity: 1,
+          x: '0%',
+          duration: 0.3,
+          ease: "power4.Out",
+          scrollTrigger: {
+            trigger: ".cam-view-5",
+            start: "top bottom",
+            end: "top top",
+            scrub: 1,
+            immediateRender: false
+          }
+        })
+      // CAM-6
       .to(position, {
-        x: 4, y: 3, z: -5,
+        x: 0.261602072, y: 0.5608170062, z: 0.6696940701,
         scrollTrigger: {
           trigger: ".cam-view-6",
           start: "top bottom",
@@ -211,7 +304,16 @@ async function setupViewer() {
         },
         onUpdate
       })
-
+      .to(target, {
+        x: -0.143696334, y: 0.0157212266, z: -0.3114864004,
+        scrollTrigger: {
+          trigger: ".cam-view-6",
+          start: "top bottom",
+          end: "top top",
+          scrub: true,
+          immediateRender: false
+        }
+      })
   };
 
   let needsUpdate = true;
