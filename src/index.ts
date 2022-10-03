@@ -14,6 +14,7 @@ import {
   TemporalAAPlugin,
   RandomizedDirectionalLightPlugin,
   AssetImporter,
+  Color
 } from "webgi"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
@@ -100,7 +101,9 @@ async function setupViewer() {
   const teslaObjectNames = [
     'door_lf_dummy',
     'door_lr_dummy',
+    'chassis_dummy'
   ]
+  //viewer.scene.findObjectsByName('chassis_dummy')[0]
   const teslaObjects: any[] = []
   for (const obj of teslaObjectNames) {
     const itemObject = viewer.scene.findObjectsByName(obj)[0];
@@ -124,15 +127,15 @@ async function setupViewer() {
 
     const tl = gsap.timeline();
 
-    function hideDoors() {
-      teslaObjects[0].visible = false
-      teslaObjects[1].visible = false
-    }
+    // function hideDoors() {
+    //   teslaObjects[0].visible = false
+    //   teslaObjects[1].visible = false
+    // }
 
-    function showDoors() {
-      teslaObjects[0].visible = true
-      teslaObjects[1].visible = true
-    }
+    // function showDoors() {
+    //   teslaObjects[0].visible = true
+    //   teslaObjects[1].visible = true
+    // }
 
     tl
       // CAM-2
@@ -144,10 +147,10 @@ async function setupViewer() {
           end: "top top",
           scrub: true,
           immediateRender: false,
-          markers: true
+      //       markers: true
         },
         onUpdate,
-        hideDoors
+        // hideDoors
       })
       .to(target, {
         x: 0.1688648285, y: -0.121886754, z: 0.0934596791,
@@ -183,10 +186,10 @@ async function setupViewer() {
           end: "top top",
           scrub: true,
           immediateRender: false,
-          markers: true
+      //       markers: true
         },
         onUpdate,
-        showDoors
+        //   showDoors
       })
       .to(target, {
         x: 0.15, y: - 0.23, z: -0.30,
@@ -221,10 +224,10 @@ async function setupViewer() {
           end: "top top",
           scrub: true,
           immediateRender: false,
-          markers: true
+      //       markers: true
         },
         onUpdate,
-        showDoors
+        //   showDoors
       })
       .to(target, {
         x: 0.15, y: - 0.23, z: 0.30,
@@ -259,10 +262,10 @@ async function setupViewer() {
           end: "top top",
           scrub: true,
           immediateRender: false,
-          markers: true
+      //       markers: true
         },
         onUpdate,
-        showDoors
+        //   showDoors
       })
       .to(target, {
         x: -0.25, y: -0.22, z: -0.14,
@@ -312,10 +315,10 @@ async function setupViewer() {
           end: "top top",
           scrub: true,
           immediateRender: false,
-          markers: true
+      //       markers: true
         },
         onUpdate,
-        showDoors
+        //   showDoors
       })
       .to(target, {
         x: -0.143696334, y: 0.0157212266, z: -0.3114864004,
@@ -377,6 +380,61 @@ async function setupViewer() {
     exitContainer.style.display = "flex"
     if (camera.controls) camera.controls.enabled = true
   }
+
+  document.querySelectorAll('.button--body').forEach(
+    function (currentValue, currentIndex, listObj) {
+      currentValue?.addEventListener('click', () => {
+        let colorLerpValue = { x: 0 }
+        const teslaBody = viewer.scene.findObjectsByName('bonnet_ok_primary_0')[0]
+        const colorBodyType = currentValue.attributes[1].value
+        switch (colorBodyType) {
+          case 'black':
+            teslaBody.material.color.lerpColors(
+              new Color(0x000).convertSRGBToLinear(),
+              new Color(0x000).convertSRGBToLinear(),
+              colorLerpValue.x
+            )
+            break;
+          case 'grey':
+            teslaBody.material.color.lerpColors(
+              new Color(0x8E8E8E).convertSRGBToLinear(),
+              new Color(0x8E8E8E).convertSRGBToLinear(),
+              colorLerpValue.x
+            )
+            break;
+          case 'red':
+            teslaBody.material.color.lerpColors(
+              new Color(0xCC0000).convertSRGBToLinear(),
+              new Color(0xCC0000).convertSRGBToLinear(),
+              colorLerpValue.x
+            )
+            break;
+          case 'blue':
+            teslaBody.material.color.lerpColors(
+              new Color(0x0000ff).convertSRGBToLinear(),
+              new Color(0x0000ff).convertSRGBToLinear(),
+              colorLerpValue.x
+            )
+            break;
+          case 'default':
+            teslaBody.material.color.lerpColors(
+              new Color(0xffffff).convertSRGBToLinear(),
+              new Color(0xffffff).convertSRGBToLinear(),
+              colorLerpValue.x
+            )
+            break;
+          default:
+            teslaBody.material.color.lerpColors(
+              new Color(0xffffff).convertSRGBToLinear(),
+              new Color(0xffffff).convertSRGBToLinear(),
+              colorLerpValue.x
+            )
+            break;
+        }
+        onUpdate()
+      })
+    },
+  );
 
   document.querySelector('.button--exit')?.addEventListener('click', () => {
     exploreView.style.pointerEvents = "all"
