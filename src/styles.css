@@ -1,17 +1,479 @@
-body {
-  font-family: sans-serif;
-  overflow: hidden;
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+@import url('http://fonts.cdnfonts.com/css/gotham');
+
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  overscroll-behavior: none;
 }
+
+body {
+  line-height: 1;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  font-family: 'Gotham', sans-serif;
+  letter-spacing: -0.5px;
+  scroll-behavior: smooth;
+  background-color: #e1dedf;
+}
+
+html,
+body {
+  scroll-snap-type: y mandatory;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: '';
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.strong {
+  font-weight: 500;
+}
+
 #webgi-canvas {
   width: 100%;
-  height: 100%;
-  border-radius: 0.5rem;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  touch-action: none;
+  pointer-events: none;
 }
-#webgi-canvas-container{
-  width: 80vw;
-  height: 80vh;
-  margin: 10vh 10vw;
-  border-radius: 0.5rem;
 
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
+#webgi-canvas-container {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  position: fixed;
+}
+
+/* LOADER */
+.loader {
+  display: flex;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  background-color: #e1dedf;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2em;
+  font-size: 12px;
+}
+
+.progress {
+  position: absolute;
+  top: 60%;
+  width: 50%;
+  height: 1px;
+  background: #c42323;
+  transform: scaleX(0);
+  transition: transform 1s;
+  transform-origin: left;
+  z-index: 10;
+  margin: 0 5%;
+}
+
+/* HEADER SECTION */
+.header {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.header--container {
+  display: flex;
+  width: 80vw;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 40px;
+  opacity: 0;
+}
+
+.header--brand {
+  width: 140px;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.header--menu {
+  display: inline-flex;
+  gap: 1em;
+  align-items: center;
+}
+
+.header--menu li {
+  padding: 10px 30px;
+  color: black;
+  transition: all 0.6s ease-in-out;
+  pointer-events: all;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.header--menu li:hover {
+  padding: 10px 30px;
+  background: black;
+  color: white;
+  cursor: pointer;
+}
+
+/* SECTION */
+.section {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  align-content: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+  scroll-snap-align: start;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.section--container-horizontal {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  width: 25%;
+  padding: 50px 0px 0px 10px;
+  background: #fff;
+  text-align: left;
+}
+
+.section-action {
+  margin: 1em auto;
+}
+
+.section-action span {
+  font-size: 18px;
+  font-weight: 500;
+  height: 22px;
+  padding: 12px 36px;
+  line-height: 32px;
+  display: block;
+  text-decoration: none;
+  border: 2px solid #000;
+  background-color: #fff;
+  color: #000;
+  pointer-events: auto;
+  transition: all 0.4s ease-in-out;
+}
+
+.section-action span:hover {
+  border: 2px solid #fff;
+  background-color: #000;
+  color: #fff;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.section--container-vertical {
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  height: 15vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  padding: 10px 50px;
+  background: #fff;
+  text-align: left;
+}
+
+.section--container-vertical .section-action {
+  padding: 0;
+  max-width: 175px;
+  margin: 0 auto;
+}
+
+.section--container-vertical .section--content-sub-title {
+  margin: 10px 0 0 0;
+  padding: 0;
+}
+
+.section--content-title {
+  font-size: 24px;
+  font-weight: 100;
+}
+
+.section--content-sub-title {
+  font-size: 38px;
+  margin: 10px 0 28px 0;
+}
+
+.section--content-text {
+  margin-bottom: 10px;
+}
+
+/* HERO SECTION */
+.hero--container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 80%;
+  padding: 10vh 0;
+}
+
+.hero--content {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.hero--content-title {
+  text-align: center;
+  font-weight: 400;
+  font-size: 42px;
+}
+
+.spec-wrapper {
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  bottom: 0;
+}
+
+.spec-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 1em;
+}
+
+.spec-item-child:first-of-type {
+  margin-bottom: 1em;
+  font-weight: 800;
+}
+
+.exit--container {
+  display: none;
+  width: 100%;
+  height: 100%;
+  align-content: center;
+  bottom: 60px;
+  align-items: center;
+  position: fixed;
+  justify-content: end;
+  z-index: 3;
+  pointer-events: none;
+  flex-direction: column;
+}
+
+.exit--container-item {
+  display: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.button--secondary {
+  font-weight: 500;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  color: #000;
+  transition: all 0.4s ease-in-out;
+  background-repeat: repeat-x repeat-y;
+  z-index: 2;
+  padding: 10px 30px;
+  border: 2px solid black;
+  text-transform: uppercase;
+  pointer-events: auto;
+  margin-right: 10px;
+}
+
+.button--secondary:hover {
+  cursor: pointer;
+  color: #ffffff;
+  background-color: #000;
+  pointer-events: auto;
+}
+
+.button--body {
+  font-weight: 500;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  color: #000;
+  transition: all 0.4s ease-in-out;
+  background-repeat: repeat-x repeat-y;
+  z-index: 2;
+  padding: 0 6px;
+  border: 2px solid black;
+  text-transform: uppercase;
+  pointer-events: auto;
+  margin-right: 10px;
+  min-width: 135px;
+  text-align: center;
+}
+
+.button--body:hover {
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.button--body .color {
+  display: flex;
+  border: 1px solid #000;
+  border-radius: 40px;
+  width: 25px;
+  height: 25px;
+  margin: 6px 8px;
+}
+
+/* MOBILE ADJUSTMENTS */
+@media (max-width: 1100px) {
+  .hero--scroller--text {
+    display: none;
+  }
+
+  .header--menu {
+    display: none;
+  }
+
+  .header--container {
+    justify-content: center;
+  }
+
+  .hero--container {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    width: 100% !important;
+  }
+
+  .hero--content {
+    width: 100%;
+    margin-left: 0;
+    position: absolute;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+  }
+
+  h1 {
+    left: unset;
+    width: unset;
+    height: unset;
+    font-size: 7em;
+    line-height: 1em;
+    margin-top: 100px;
+    position: relative;
+  }
+
+  .hero--content > h2 {
+    text-align: center;
+    margin-bottom: 9px;
+    font-weight: 500;
+    font-size: 1em;
+    margin-right: 0;
+    margin-top: 40px;
+  }
+}
+
+@media (max-width: 760px) {
+  .hero--content > p {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+    letter-spacing: -0.04em;
+    margin-bottom: 30px;
+    width: 85%;
+    text-align: center;
+  }
+
+  .section--container-vertical,
+  .section--container-horizontal {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .section-details {
+    width: 320px;
+    position: absolute;
+    margin-right: 0;
+    opacity: 0;
+    margin-top: 20%;
+    text-align: center;
+  }
+
+  .section-details p {
+    display: none;
+  }
+
+  .section-details img {
+    display: none;
+  }
+
+  .section-details svg {
+    margin-top: 50vh;
+  }
+  .exit--container-item {
+    flex-direction: column;
+  }
+
+  .button--body {
+    margin: 10px 0;
+  }
 }
