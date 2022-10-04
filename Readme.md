@@ -1,5 +1,5 @@
 # Tesla Demo
-![]('assets/images/demo.gif')
+![](https://github.com/tesla/assets/images/demo.gif)
 
 # Tesla project
 
