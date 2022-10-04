@@ -302,11 +302,20 @@ table {
   height: 100%;
   align-content: center;
   bottom: 60px;
-  align-items: flex-end;
+  align-items: center;
   position: fixed;
-  justify-content: center;
+  justify-content: end;
   z-index: 3;
   pointer-events: none;
+  flex-direction: column;
+}
+
+.exit--container-item {
+  display: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
 }
 
 .button--secondary {
@@ -330,4 +339,141 @@ table {
   color: #ffffff;
   background-color: #000;
   pointer-events: auto;
+}
+
+.button--body {
+  font-weight: 500;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  color: #000;
+  transition: all 0.4s ease-in-out;
+  background-repeat: repeat-x repeat-y;
+  z-index: 2;
+  padding: 0 6px;
+  border: 2px solid black;
+  text-transform: uppercase;
+  pointer-events: auto;
+  margin-right: 10px;
+  min-width: 135px;
+  text-align: center;
+}
+
+.button--body:hover {
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.button--body .color {
+  display: flex;
+  border: 1px solid #000;
+  border-radius: 40px;
+  width: 25px;
+  height: 25px;
+  margin: 6px 8px;
+}
+
+/* MOBILE ADJUSTMENTS */
+@media (max-width: 1100px) {
+  .hero--scroller--text {
+    display: none;
+  }
+
+  .header--menu {
+    display: none;
+  }
+
+  .header--container {
+    justify-content: center;
+  }
+
+  .hero--container {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    width: 100% !important;
+  }
+
+  .hero--content {
+    width: 100%;
+    margin-left: 0;
+    position: absolute;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+  }
+
+  h1 {
+    left: unset;
+    width: unset;
+    height: unset;
+    font-size: 7em;
+    line-height: 1em;
+    margin-top: 100px;
+    position: relative;
+  }
+
+  .hero--content > h2 {
+    text-align: center;
+    margin-bottom: 9px;
+    font-weight: 500;
+    font-size: 1em;
+    margin-right: 0;
+    margin-top: 40px;
+  }
+}
+
+@media (max-width: 760px) {
+  .hero--content > p {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 22px;
+    letter-spacing: -0.04em;
+    margin-bottom: 30px;
+    width: 85%;
+    text-align: center;
+  }
+
+  .section--container-vertical,
+  .section--container-horizontal {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .section-details {
+    width: 320px;
+    position: absolute;
+    margin-right: 0;
+    opacity: 0;
+    margin-top: 20%;
+    text-align: center;
+  }
+
+  .section-details p {
+    display: none;
+  }
+
+  .section-details img {
+    display: none;
+  }
+
+  .section-details svg {
+    margin-top: 50vh;
+  }
+  .exit--container-item {
+    flex-direction: column;
+  }
+
+  .button--body {
+    margin: 10px 0;
+  }
 }

@@ -14,7 +14,8 @@ import {
   TemporalAAPlugin,
   RandomizedDirectionalLightPlugin,
   AssetImporter,
-  Color
+  Color,
+  createStyles
 } from "webgi"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
@@ -118,6 +119,7 @@ async function setupViewer() {
     introTL
       .to('.loader', { x: '150%', duration: 0.8, ease: "power4.inOut", delay: 1 })
       .fromTo('.header--container', { opacity: 0, y: '-100%' }, { opacity: 1, y: '0%', ease: "power1.inOut", duration: 0.8 }, '-=1')
+      .fromTo(target, { x: 3.16, y: -0.13, z: 0.51 }, { x: isMobile ? -0.1 : 0.86, y: -0.13, z: 0.51, duration: 4, onUpdate }, '-=4')
       .fromTo('.hero--content', { opacity: 0, x: '-50%' }, { opacity: 1, x: '0%', ease: "power4.inOut", duration: 1.8, onComplete: setupScrollAnimation }, '-=1')
   }
 
@@ -147,7 +149,7 @@ async function setupViewer() {
           end: "top top",
           scrub: true,
           immediateRender: false,
-      //       markers: true
+          //       markers: true
         },
         onUpdate,
         // hideDoors
@@ -186,7 +188,7 @@ async function setupViewer() {
           end: "top top",
           scrub: true,
           immediateRender: false,
-      //       markers: true
+          //       markers: true
         },
         onUpdate,
         //   showDoors
@@ -224,7 +226,7 @@ async function setupViewer() {
           end: "top top",
           scrub: true,
           immediateRender: false,
-      //       markers: true
+          //       markers: true
         },
         onUpdate,
         //   showDoors
@@ -262,7 +264,7 @@ async function setupViewer() {
           end: "top top",
           scrub: true,
           immediateRender: false,
-      //       markers: true
+          //       markers: true
         },
         onUpdate,
         //   showDoors
@@ -315,7 +317,7 @@ async function setupViewer() {
           end: "top top",
           scrub: true,
           immediateRender: false,
-      //       markers: true
+          //       markers: true
         },
         onUpdate,
         //   showDoors
@@ -335,6 +337,18 @@ async function setupViewer() {
   let needsUpdate = true;
   function onUpdate() {
     needsUpdate = true;
+  }
+
+  if (!isMobile) {
+    const sections = document.querySelectorAll('.section')
+    const sectionTops: number[] = []
+    sections.forEach(section => {
+      sectionTops.push(section.getBoundingClientRect().top)
+    })
+    setupCustomWheelSmoothScrolling(viewer, document.documentElement, sectionTops,)
+  }
+  else {
+    createStyles(`html, body { scroll-snap-type: y mandatory;}`)
   }
 
   viewer.addEventListener('preFrame', () => {
@@ -458,6 +472,47 @@ async function setupViewer() {
       .to('.explore--content', { opacity: 1, x: '0%', duration: 0.5, ease: "power4.out" }, '-=1.2')
       .to('.section', { opacity: 1, duration: 1.5, ease: "power4.out" }, '-=2.5')
   }
+}
+
+function setupCustomWheelSmoothScrolling(viewer: ViewerApp, element: HTMLElement, snapPositions: number[], speed = 1.5) {
+  let customScrollY = element.scrollTop
+  let frameDelta = 0
+  let scrollVelocity = 0
+
+  window.addEventListener('wheel', (e: WheelEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    // todo: check delta mode?
+    frameDelta = Math.min(Math.max(e.deltaY * speed, -window.innerHeight / 3), window.innerHeight / 3)
+    return false
+  }, { passive: false })
+
+
+  const idleSpeedFactor = 0.05
+  const snapSpeedFactor = 0.4
+  const snapProximity = window.innerHeight / 4
+  const wheelDamping = 0.25
+  const velocityDamping = 0.2
+
+  viewer.addEventListener('preFrame', () => {
+    if (Math.abs(frameDelta) < 1) {
+      const nearestSection = snapPositions.reduce((prev, curr) => Math.abs(curr - customScrollY) < Math.abs(prev - customScrollY) ? curr : prev)
+      const d = nearestSection - customScrollY
+      scrollVelocity = d * (Math.abs(d) < snapProximity ? snapSpeedFactor : idleSpeedFactor);
+    }
+    scrollVelocity += frameDelta * wheelDamping
+    frameDelta *= (1. - wheelDamping)
+    if (Math.abs(frameDelta) < 0.01) frameDelta = 0
+    if (Math.abs(scrollVelocity) > 0.01) {
+      customScrollY = Math.max(customScrollY + scrollVelocity * velocityDamping, 0)
+      element.scrollTop = customScrollY
+      scrollVelocity *= (1. - velocityDamping)
+    } else {
+      scrollVelocity = 0
+    }
+
+  })
+
 }
 
 setupViewer();
