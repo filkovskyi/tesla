@@ -1,7 +1,6 @@
-# WebGi starter project
-A template for a vanilla(no ui-framework) project with webgi engine in typescript using parcel bundler.
+# Tesla  project
 
-About webgi: [https://webgi.xyz/](https://webgi.xyz/)
+About webgi: [https://tesla-indol.vercel.app/](https://tesla-indol.vercel.app/)
 
 ## Running
 First install the dependencies:
@@ -13,7 +12,7 @@ To run the project in development mode:
 ```bash
 npm start
 ```
-Then navigate to [http://localhost:1234/index.html](http://localhost:1234/index.html) in a web browser to see the default scene in a viewer.
+Then navigate to [http://localhost:3000/index.html](http://localhost:1234/index.html) in a web browser to see the default scene in a viewer.
 
 The assets are stored in the `assets` directory.
 
