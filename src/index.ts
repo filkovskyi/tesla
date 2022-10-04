@@ -32,7 +32,7 @@ async function setupViewer() {
     isAntialiased: false
   })
 
-  const isMobile = mobileAndTabletCheck()
+  //const isMobile = mobileAndTabletCheck()
 
   viewer.renderer.displayCanvasScaling = Math.min(window.devicePixelRatio, 1)
 
@@ -89,11 +89,11 @@ async function setupViewer() {
   if (camera.controls) camera.controls.enabled = false
 
   // WEBGi mobile adjustments
-  if (isMobile) {
-    ssr.passes.ssr.passObject.stepCount /= 2
-    bloom.enabled = false
-    camera.setCameraOptions({ fov: 65 })
-  }
+  // if (isMobile) {
+  //   ssr.passes.ssr.passObject.stepCount /= 2
+  //   bloom.enabled = false
+  //   camera.setCameraOptions({ fov: 65 })
+  // }
 
   // WEBGi load model
   await manager.addFromPath("./assets/tesla_1.glb");
@@ -119,7 +119,7 @@ async function setupViewer() {
     introTL
       .to('.loader', { x: '150%', duration: 0.8, ease: "power4.inOut", delay: 1 })
       .fromTo('.header--container', { opacity: 0, y: '-100%' }, { opacity: 1, y: '0%', ease: "power1.inOut", duration: 0.8 }, '-=1')
-      .fromTo(target, { x: 3.16, y: -0.13, z: 0.51 }, { x: isMobile ? -0.1 : 0.86, y: -0.13, z: 0.51, duration: 4, onUpdate }, '-=4')
+      //.fromTo(target, { x: 3.16, y: -0.13, z: 0.51 }, { x: isMobile ? -0.1 : 0.86, y: -0.13, z: 0.51, duration: 4, onUpdate }, '-=4')
       .fromTo('.hero--content', { opacity: 0, x: '-50%' }, { opacity: 1, x: '0%', ease: "power4.inOut", duration: 1.8, onComplete: setupScrollAnimation }, '-=1')
   }
 
@@ -339,17 +339,17 @@ async function setupViewer() {
     needsUpdate = true;
   }
 
-  if (!isMobile) {
-    const sections = document.querySelectorAll('.section')
-    const sectionTops: number[] = []
-    sections.forEach(section => {
-      sectionTops.push(section.getBoundingClientRect().top)
-    })
-    setupCustomWheelSmoothScrolling(viewer, document.documentElement, sectionTops,)
-  }
-  else {
-    createStyles(`html, body { scroll-snap-type: y mandatory;}`)
-  }
+  // if (!isMobile) {
+  //   const sections = document.querySelectorAll('.section')
+  //   const sectionTops: number[] = []
+  //   sections.forEach(section => {
+  //     sectionTops.push(section.getBoundingClientRect().top)
+  //   })
+  //   setupCustomWheelSmoothScrolling(viewer, document.documentElement, sectionTops,)
+  // }
+  // else {
+  //   createStyles(`html, body { scroll-snap-type: y mandatory;}`)
+  // }
 
   viewer.addEventListener('preFrame', () => {
     if (needsUpdate) {
