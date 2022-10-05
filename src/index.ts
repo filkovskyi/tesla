@@ -98,6 +98,9 @@ async function setupViewer() {
   // WEBGi load model
   await manager.addFromPath("./assets/tesla_2.glb");
 
+
+
+  
   //Tesla_Scene
   const teslaObjectNames = [
     'door_lf_dummy',
