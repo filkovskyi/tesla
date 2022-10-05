@@ -1,5 +1,6 @@
 # Tesla Demo
-![]('assets/images/demo.gif')
+![](https://github.com/filkovskyi/tesla/blob/master/assets/images/demo.gif)
+
 
 # Tesla project
 
