@@ -96,7 +96,7 @@ async function setupViewer() {
   // }
 
   // WEBGi load model
-  await manager.addFromPath("./assets/tesla_2.glb");
+  await manager.addFromPath("./assets/tesla_2_1.glb");
 
   //Tesla_Scene
   const teslaObjectNames = [
